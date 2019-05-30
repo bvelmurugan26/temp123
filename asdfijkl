@@ -1,0 +1,410 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Combinatorics.Collections;
+
+namespace Ibex
+{
+    public partial class frmHome : Form
+    {
+        Combinations<Player> combWK1, combWK2, combWK3, combWK4;
+        Combinations<Player> combBAT3, combBAT4, combBAT5, combBAT6;
+        Combinations<Player> combALL1, combALL2, combALL3, combALL4;
+        Combinations<Player> combBOWL3, combBOWL4, combBOWL5, combBOWL6;
+
+        public class Player
+        {
+            public Player(int id, string name, double points, string role)
+            {
+                this.id = id;
+                this.name = name;
+                this.points = points;
+                this.role = role;
+            }
+
+            public double credits { get; set; }
+            public int id { get; set; }
+            public string name { get; set; }
+            public double points { get; set; } = 0;
+            public string role { get; set; }
+        }
+        
+        public class PlayerCombination
+        {
+            public int PlayerID = 1;
+            public Player wk1 { get; set; }
+            public Player wk2 { get; set; }
+            public Player wk3 { get; set; }
+            public Player wk4 { get; set; }
+            public Player bat1 { get; set; }
+            public Player bat2 { get; set; }
+            public Player bat3 { get; set; }
+            public Player bat4 { get; set; }
+            public Player bat5 { get; set; }
+            public Player bat6 { get; set; }
+            public Player all1 { get; set; }
+            public Player all2 { get; set; }
+            public Player all3 { get; set; }
+            public Player all4 { get; set; }
+            public Player bowl1 { get; set; }
+            public Player bowl2 { get; set; }
+            public Player bowl3 { get; set; }
+            public Player bowl4 { get; set; }
+            public Player bowl5 { get; set; }
+            public Player bowl6 { get; set; }
+            public int Combination { get; set; }
+            public string CombinationType { get; set; }
+        }
+
+        PlayerCombination playComb;
+
+        List<PlayerCombination> lstPlayComb;
+
+        public frmHome()
+        {
+            InitializeComponent();
+            
+        }
+
+        private void frmHome_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                #region "Players"
+
+                List<Player> lstPlayer = new List<Player>();
+                lstPlayer.Add(new Player(123, "Velu", 9.5, "A"));
+                lstPlayer.Add(new Player(124, "Murugan", 8.5, "B"));
+                lstPlayer.Add(new Player(125, "Prabhu", 8.5, "C"));
+                lstPlayer.Add(new Player(126, "Arun", 8.5, "D"));
+                lstPlayer.Add(new Player(127, "Venkat", 8.5, "A"));
+                lstPlayer.Add(new Player(128, "Raj", 8.5, "B"));
+                lstPlayer.Add(new Player(129, "Velu", 9.5, "C"));
+                lstPlayer.Add(new Player(130, "Murugan", 8.5, "D"));
+                lstPlayer.Add(new Player(131, "Prabhu", 8.5, "A"));
+                lstPlayer.Add(new Player(132, "Arun", 8.5, "B"));
+                lstPlayer.Add(new Player(133, "Venkat", 8.5, "C"));
+                lstPlayer.Add(new Player(134, "Raj", 8.5, "D"));
+                lstPlayer.Add(new Player(135, "Raj", 8.5, "A"));
+                lstPlayer.Add(new Player(136, "Raj", 8.5, "B"));
+                lstPlayer.Add(new Player(137, "Raj", 8.5, "C"));
+                lstPlayer.Add(new Player(138, "Raj", 8.5, "D"));
+                lstPlayer.Add(new Player(139, "Raj", 8.5, "A"));
+                lstPlayer.Add(new Player(140, "Raj", 8.5, "B"));
+                lstPlayer.Add(new Player(141, "Raj", 8.5, "C"));
+                lstPlayer.Add(new Player(142, "Raj", 8.5, "D"));
+                lstPlayer.Add(new Player(143, "Raj", 8.5, "A"));
+                lstPlayer.Add(new Player(144, "Raj", 8.5, "B"));
+                lstPlayer.Add(new Player(145, "Raj", 8.5, "C"));
+                lstPlayer.Add(new Player(146, "Raj", 8.5, "D"));
+
+                #endregion
+
+                #region "Combinations"
+
+                combWK1 = (lstPlayer.Where(x => x.role == "A").Count() >= 1) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "A").ToList<Player>(), 1, GenerateOption.WithoutRepetition) : null;
+                combWK2 = (lstPlayer.Where(x => x.role == "A").Count() >= 2) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "A").ToList<Player>(), 2, GenerateOption.WithoutRepetition) : null;
+                combWK3 = (lstPlayer.Where(x => x.role == "A").Count() >= 3) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "A").ToList<Player>(), 3, GenerateOption.WithoutRepetition) : null;
+                combWK4 = (lstPlayer.Where(x => x.role == "A").Count() >= 4) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "A").ToList<Player>(), 4, GenerateOption.WithoutRepetition) : null;
+
+                combBAT3 = (lstPlayer.Where(x => x.role == "B").Count() >= 3) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "B").ToList<Player>(), 3, GenerateOption.WithoutRepetition) : null;
+                combBAT4 = (lstPlayer.Where(x => x.role == "B").Count() >= 4) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "B").ToList<Player>(), 4, GenerateOption.WithoutRepetition) : null;
+                combBAT5 = (lstPlayer.Where(x => x.role == "B").Count() >= 5) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "B").ToList<Player>(), 5, GenerateOption.WithoutRepetition) : null;
+                combBAT6 = (lstPlayer.Where(x => x.role == "B").Count() >= 6) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "B").ToList<Player>(), 6, GenerateOption.WithoutRepetition) : null;
+
+                combALL1 = (lstPlayer.Where(x => x.role == "C").Count() >= 1) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "C").ToList<Player>(), 1, GenerateOption.WithoutRepetition) : null;
+                combALL2 = (lstPlayer.Where(x => x.role == "C").Count() >= 2) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "C").ToList<Player>(), 2, GenerateOption.WithoutRepetition) : null;
+                combALL3 = (lstPlayer.Where(x => x.role == "C").Count() >= 3) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "C").ToList<Player>(), 3, GenerateOption.WithoutRepetition) : null;
+                combALL4 = (lstPlayer.Where(x => x.role == "C").Count() >= 4) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "C").ToList<Player>(), 4, GenerateOption.WithoutRepetition) : null;
+
+                combBOWL3 = (lstPlayer.Where(x => x.role == "D").Count() >= 3) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "D").ToList<Player>(), 3, GenerateOption.WithoutRepetition) : null;
+                combBOWL4 = (lstPlayer.Where(x => x.role == "D").Count() >= 4) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "D").ToList<Player>(), 4, GenerateOption.WithoutRepetition) : null;
+                combBOWL5 = (lstPlayer.Where(x => x.role == "D").Count() >= 5) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "D").ToList<Player>(), 5, GenerateOption.WithoutRepetition) : null;
+                combBOWL6 = (lstPlayer.Where(x => x.role == "D").Count() >= 6) ? new Combinations<Player>(lstPlayer.Where(x => x.role == "D").ToList<Player>(), 6, GenerateOption.WithoutRepetition) : null;
+
+                #endregion
+
+                #region "PlayerCombination"
+
+                lstPlayComb = new List<PlayerCombination>();
+
+                #region "WK"
+
+                if (combWK1 != null)
+                {
+                    foreach (var item in combWK1)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.wk1 = item.ElementAt(0);
+                        playComb.Combination = 1;
+                        playComb.CombinationType = "WK";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                if (combWK2 != null)
+                {
+                    foreach (var item in combWK2)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.wk1 = item.ElementAt(0);
+                        playComb.wk2 = item.ElementAt(1);
+                        playComb.Combination = 2;
+                        playComb.CombinationType = "WK";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                if (combWK3 != null)
+                {
+                    foreach (var item in combWK3)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.wk1 = item.ElementAt(0);
+                        playComb.wk2 = item.ElementAt(1);
+                        playComb.wk3 = item.ElementAt(2);
+                        playComb.Combination = 3;
+                        playComb.CombinationType = "WK";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                if (combWK4 != null)
+                {
+                    foreach (var item in combWK4)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.wk1 = item.ElementAt(0);
+                        playComb.wk2 = item.ElementAt(1);
+                        playComb.wk3 = item.ElementAt(2);
+                        playComb.wk4 = item.ElementAt(3);
+                        playComb.Combination = 4;
+                        playComb.CombinationType = "WK";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                #endregion
+
+                #region "BAT"
+
+                if (combBAT3 != null)
+                {
+                    foreach (var item in combBAT3)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.bat1 = item.ElementAt(0);
+                        playComb.bat2 = item.ElementAt(1);
+                        playComb.bat3 = item.ElementAt(2);
+                        playComb.Combination = 3;
+                        playComb.CombinationType = "BAT";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                if (combBAT4 != null)
+                {
+                    foreach (var item in combBAT4)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.bat1 = item.ElementAt(0);
+                        playComb.bat2 = item.ElementAt(1);
+                        playComb.bat3 = item.ElementAt(2);
+                        playComb.bat4 = item.ElementAt(3);
+                        playComb.Combination = 4;
+                        playComb.CombinationType = "BAT";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                if (combBAT5 != null)
+                {
+                    foreach (var item in combBAT5)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.bat1 = item.ElementAt(0);
+                        playComb.bat2 = item.ElementAt(1);
+                        playComb.bat3 = item.ElementAt(2);
+                        playComb.bat4 = item.ElementAt(3);
+                        playComb.bat5 = item.ElementAt(4);
+                        playComb.Combination = 5;
+                        playComb.CombinationType = "BAT";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                if (combBAT6 != null)
+                {
+                    foreach (var item in combBAT6)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.bat1 = item.ElementAt(0);
+                        playComb.bat2 = item.ElementAt(1);
+                        playComb.bat3 = item.ElementAt(2);
+                        playComb.bat4 = item.ElementAt(3);
+                        playComb.bat5 = item.ElementAt(4);
+                        playComb.bat6 = item.ElementAt(5);
+                        playComb.Combination = 6;
+                        playComb.CombinationType = "BAT";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                #endregion
+
+                #region "ALL"
+
+                if (combALL1 != null)
+                {
+                    foreach (var item in combALL1)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.all1 = item.ElementAt(0);
+                        playComb.Combination = 1;
+                        playComb.CombinationType = "ALL";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                if (combALL2 != null)
+                {
+                    foreach (var item in combALL2)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.all1 = item.ElementAt(0);
+                        playComb.all2 = item.ElementAt(1);
+                        playComb.Combination = 2;
+                        playComb.CombinationType = "ALL";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                if (combALL3 != null)
+                {
+                    foreach (var item in combALL3)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.all1 = item.ElementAt(0);
+                        playComb.all2 = item.ElementAt(1);
+                        playComb.all3 = item.ElementAt(2);
+                        playComb.Combination = 3;
+                        playComb.CombinationType = "ALL";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                if (combALL4 != null)
+                {
+                    foreach (var item in combALL4)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.all1 = item.ElementAt(0);
+                        playComb.all2 = item.ElementAt(1);
+                        playComb.all3 = item.ElementAt(2);
+                        playComb.all4 = item.ElementAt(3);
+                        playComb.Combination = 4;
+                        playComb.CombinationType = "ALL";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                #endregion
+
+                #region "BOWL"
+
+                if (combBOWL3 != null)
+                {
+                    foreach (var item in combBOWL3)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.bowl1 = item.ElementAt(0);
+                        playComb.bowl2 = item.ElementAt(1);
+                        playComb.bowl3 = item.ElementAt(2);
+                        playComb.Combination = 3;
+                        playComb.CombinationType = "BOWL";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                if (combBOWL4 != null)
+                {
+                    foreach (var item in combBOWL4)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.bowl1 = item.ElementAt(0);
+                        playComb.bowl2 = item.ElementAt(1);
+                        playComb.bowl3 = item.ElementAt(2);
+                        playComb.bowl4 = item.ElementAt(3);
+                        playComb.Combination = 4;
+                        playComb.CombinationType = "BOWL";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                if (combBOWL5 != null)
+                {
+                    foreach (var item in combBOWL5)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.bowl1 = item.ElementAt(0);
+                        playComb.bowl2 = item.ElementAt(1);
+                        playComb.bowl3 = item.ElementAt(2);
+                        playComb.bowl4 = item.ElementAt(3);
+                        playComb.bowl5 = item.ElementAt(4);
+                        playComb.Combination = 5;
+                        playComb.CombinationType = "BOWL";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                if (combBOWL6 != null)
+                {
+                    foreach (var item in combBOWL6)
+                    {
+                        playComb = new PlayerCombination();
+                        playComb.bowl1 = item.ElementAt(0);
+                        playComb.bowl2 = item.ElementAt(1);
+                        playComb.bowl3 = item.ElementAt(2);
+                        playComb.bowl4 = item.ElementAt(3);
+                        playComb.bowl5 = item.ElementAt(4);
+                        playComb.bowl6 = item.ElementAt(5);
+                        playComb.Combination = 6;
+                        playComb.CombinationType = "BOWL";
+                        lstPlayComb.Add(playComb);
+                    }
+                }
+
+                #endregion
+
+                #endregion
+
+                IEnumerable<PlayerCombination> playerWK = lstPlayComb.Where(x => x.Combination == 3 && x.CombinationType == "WK");
+                IEnumerable<PlayerCombination> playerBAT = lstPlayComb.Where(x => x.Combination == 3 && x.CombinationType == "BAT");
+                IEnumerable<PlayerCombination> playerALL = lstPlayComb.Where(x => x.Combination == 1 && x.CombinationType == "ALL");
+                IEnumerable<PlayerCombination> playerBOWL = lstPlayComb.Where(x => x.Combination == 4 && x.CombinationType == "BOWL");
+
+                var lines = from wk in playerWK
+                            join bat in playerBAT on wk.PlayerID equals bat.PlayerID 
+                            where ( ((wk.wk1 != null ? wk.wk1.points : 0 ) + (wk.wk2 != null ? wk.wk2.points : 0) + (wk.wk3 != null ? wk.wk3.points : 0) + (wk.wk4 != null ? wk.wk4.points : 0) ) > 10)
+                            select new
+                            {
+                                wk,bat
+                            };
+
+                int sTest = lines.Count();
+
+                string st = "Vel";
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+    }
+}
